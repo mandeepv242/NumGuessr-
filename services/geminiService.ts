@@ -1,8 +1,20 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AnalysisResult } from "../types";
 
+// Safely access environment variable without crashing if process is undefined
+const getApiKey = (): string | undefined => {
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      return process.env.API_KEY;
+    }
+  } catch (e) {
+    // Ignore reference errors
+  }
+  return undefined;
+};
+
 const getClient = () => {
-  const apiKey = process.env.API_KEY;
+  const apiKey = getApiKey();
   if (!apiKey) return null;
   return new GoogleGenAI({ apiKey });
 };

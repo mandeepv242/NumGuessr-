@@ -12,6 +12,15 @@ const PRESETS = {
   HARD: { min: 1, max: 50, tries: 10 }
 };
 
+// Safe check for API key existence
+const hasApiKey = () => {
+  try {
+    return typeof process !== 'undefined' && !!process.env?.API_KEY;
+  } catch {
+    return false;
+  }
+};
+
 // --- Components ---
 
 const Leaderboard: React.FC<{ entries: LeaderboardEntry[], currentDiff: string }> = ({ entries, currentDiff }) => {
@@ -257,7 +266,9 @@ export default function App() {
         date: Date.now()
       });
 
-      if (process.env.API_KEY) getMathFunFact(state.secretNumber).then(setFunFact);
+      if (hasApiKey()) {
+        getMathFunFact(state.secretNumber).then(setFunFact);
+      }
       return;
     }
 
@@ -334,6 +345,7 @@ export default function App() {
   const remainingRange = state.rangeHigh - state.rangeLow + 1;
   const probability = remainingRange > 0 ? (1 / remainingRange * 100).toFixed(1) : 0;
   const binaryPivot = getBinarySearchPivot(state.rangeLow, state.rangeHigh);
+  const apiKeyAvailable = hasApiKey();
 
   return (
     <div className="h-full flex flex-col bg-slate-900 text-slate-200 font-sans overflow-hidden">
@@ -434,7 +446,7 @@ export default function App() {
                         <RotateCcw size={20} /> Play Again
                       </button>
                       
-                      {process.env.API_KEY && !analysis && (
+                      {apiKeyAvailable && !analysis && (
                         <button 
                           onClick={runAnalysis} 
                           disabled={isAnalyzing}

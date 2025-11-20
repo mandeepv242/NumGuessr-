@@ -1,4 +1,4 @@
-import { GoogleGenAI, SchemaType } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 import { AnalysisResult } from "../types";
 
 const getClient = () => {
@@ -35,10 +35,10 @@ export const analyzeGameplay = async (
       config: {
         responseMimeType: 'application/json',
         responseSchema: {
-          type: 'OBJECT',
+          type: Type.OBJECT,
           properties: {
-            feedback: { type: 'STRING' },
-            rating: { type: 'NUMBER' }
+            feedback: { type: Type.STRING },
+            rating: { type: Type.NUMBER }
           }
         }
       }

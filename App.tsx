@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { TrendingUp, Brain, Lock, Unlock, Play, RotateCcw, Award, BarChart2, Trophy, AlertTriangle, User, XCircle, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { TrendingUp, Brain, Lock, Unlock, Play, RotateCcw, Trophy, User } from 'lucide-react';
 import { GamePhase, GameConfig, ClueType, GameState, AnalysisResult, LeaderboardEntry } from './types';
 import { RangeVisualizer } from './components/RangeVisualizer';
-import { isPrime, getClueText, getClueCost, getBinarySearchPivot, calculateScore } from './services/mathUtils';
+import { getClueText, getClueCost, getBinarySearchPivot, calculateScore } from './services/mathUtils';
 import { analyzeGameplay, getMathFunFact } from './services/geminiService';
 
 // --- Constants ---
@@ -22,7 +22,7 @@ const Leaderboard: React.FC<{ entries: LeaderboardEntry[], currentDiff: string }
       <h3 className="text-xs font-bold uppercase text-slate-400 mb-3 flex items-center gap-2">
         <Trophy size={14} className="text-yellow-500" /> Top Scores ({currentDiff})
       </h3>
-      <div className="flex-1 overflow-y-auto space-y-1 pr-2 text-sm">
+      <div className="flex-1 overflow-y-auto space-y-1 pr-2 text-sm custom-scrollbar">
         {filtered.length === 0 ? (
           <div className="text-slate-600 italic text-xs">No scores yet. Be the first!</div>
         ) : (
@@ -514,7 +514,7 @@ export default function App() {
                     <TrendingUp size={14} /> History
                  </h3>
               </div>
-              <div className="flex-1 overflow-y-auto p-2 space-y-1">
+              <div className="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
                  {state.guesses.slice().reverse().map((g, i) => (
                     <div key={i} className="flex items-center justify-between p-2 rounded bg-slate-800/50 hover:bg-slate-800 transition-colors border border-transparent hover:border-slate-700">
                        <div className="flex items-center gap-3">
